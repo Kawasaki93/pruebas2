@@ -14,8 +14,13 @@
   <link rel="manifest" href="/manifest.json">
 </head>
 <body>
-    <div id="connectionStatus" style="position: fixed; top: 10px; right: 10px; padding: 10px 20px; border-radius: 5px; font-weight: bold; z-index: 1000;">
-        Verificando conexión...
+    <div style="position: fixed; top: 10px; right: 10px; z-index: 1000; display: flex; gap: 10px; align-items: center;">
+        <div id="connectionStatus" style="padding: 10px 20px; border-radius: 5px; font-weight: bold; background-color: #f0f0f0; border: 2px solid #ccc;">
+            Verificando conexión...
+        </div>
+        <button onclick="checkFirestoreConnection()" style="padding: 10px 20px; border-radius: 5px; background-color: #2196F3; color: white; border: none; cursor: pointer; font-weight: bold;">
+            Verificar Conexión
+        </button>
     </div>
 
 <div class="left_panel">
