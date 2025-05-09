@@ -1,10 +1,12 @@
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').then((reg) => {
-      console.log("Service Worker registrado", reg);
-    }).catch((err) => {
-      console.error("Error al registrar el Service Worker", err);
-    });
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      .then((reg) => {
+        console.log("Service Worker registrado correctamente", reg);
+      })
+      .catch((err) => {
+        console.warn("Error al registrar el Service Worker:", err);
+      });
   });
 }
 
@@ -961,11 +963,13 @@ function descargarLog() {
 //FUNCIONAMIENTO DE SERVICE WORKER NO TOCAR
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js').then((reg) => {
-      console.log("Service Worker registrado", reg);
-    }).catch((err) => {
-      console.error("Error al registrar el Service Worker", err);
-    });
+    navigator.serviceWorker.register('/sw.js', { scope: '/' })
+      .then((reg) => {
+        console.log("Service Worker registrado correctamente", reg);
+      })
+      .catch((err) => {
+        console.warn("Error al registrar el Service Worker:", err);
+      });
   });
 }
 
