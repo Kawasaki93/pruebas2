@@ -19,5 +19,14 @@
         }
       ]
     }
+  ],
+  "routes": [
+    {
+      "src": "/sw.js",
+      "dest": "/sw.js",
+      "headers": {
+        "Content-Type": "application/javascript"
+      }
+    }
   ]
 }

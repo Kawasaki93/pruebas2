@@ -1,12 +1,14 @@
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js', { scope: '/' })
-      .then((reg) => {
-        console.log("Service Worker registrado correctamente", reg);
-      })
-      .catch((err) => {
-        console.warn("Error al registrar el Service Worker:", err);
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('/sw.js', {
+        scope: '/',
+        updateViaCache: 'none'
       });
+      console.log('Service Worker registrado correctamente:', registration);
+    } catch (error) {
+      console.warn('Error al registrar el Service Worker:', error);
+    }
   });
 }
 
@@ -962,14 +964,16 @@ function descargarLog() {
 
 //FUNCIONAMIENTO DE SERVICE WORKER NO TOCAR
 if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/sw.js', { scope: '/' })
-      .then((reg) => {
-        console.log("Service Worker registrado correctamente", reg);
-      })
-      .catch((err) => {
-        console.warn("Error al registrar el Service Worker:", err);
+  window.addEventListener('load', async () => {
+    try {
+      const registration = await navigator.serviceWorker.register('/sw.js', {
+        scope: '/',
+        updateViaCache: 'none'
       });
+      console.log('Service Worker registrado correctamente:', registration);
+    } catch (error) {
+      console.warn('Error al registrar el Service Worker:', error);
+    }
   });
 }
 
@@ -1002,6 +1006,18 @@ function setupColorCycle(selector, stepsCount, storagePrefix) {
 
             // Guardar en localStorage
             localStorage.setItem(storageKey, newStep);
+
+            // Sincronizar con Firebase
+            if (el.hasClass('sunbed')) {
+                syncSunbedState(el.attr('id'), {
+                    color: el.css('backgroundColor'),
+                    clientName: el.find('.customer_name').val()
+                });
+            } else if (el.hasClass('circle')) {
+                syncCircleState(el.attr('id'), {
+                    color: el.css('backgroundColor')
+                });
+            }
         });
 
         // Restaurar estado desde localStorage
@@ -1103,8 +1119,17 @@ function handleCircleClick(element) {
 
 // Modificar las funciones de visibilidad
 function toggleDesconectadosFila8() {
-  // ... existing code ...
-  
+  var $desconectadosFila8 = $(".desconectadosfila8");
+  var currentVisibility = $desconectadosFila8.css("visibility");
+
+  if (currentVisibility === "hidden") {
+    $desconectadosFila8.css("visibility", "visible");
+    localStorage.setItem("desconectadosFila8Visibility", "visible");
+  } else {
+    $desconectadosFila8.css("visibility", "hidden");
+    localStorage.setItem("desconectadosFila8Visibility", "hidden");
+  }
+
   // Sincronizar estado de visibilidad
   syncVisibilityState({
     rows: getCurrentRowVisibility(),
@@ -1134,3 +1159,53 @@ function getCurrentUmbrellaVisibility() {
   });
   return umbrellas;
 }
+
+// Agregar event listeners para los sunbeds
+document.addEventListener('DOMContentLoaded', function() {
+  // Event listener para cambios en los sunbeds
+  document.querySelectorAll('.sunbed').forEach(sunbed => {
+    // Evento para cambios de color
+    sunbed.addEventListener('click', function(e) {
+      if (e.target.classList.contains('color-option')) {
+        const sunbedId = this.id;
+        const currentColor = this.style.backgroundColor;
+        const clientName = this.querySelector('.customer_name').value;
+        
+        // Sincronizar con Firebase
+        syncSunbedState(sunbedId, {
+          color: currentColor,
+          clientName: clientName
+        });
+      }
+    });
+
+    // Evento para cambios en el nombre del cliente
+    const nameInput = sunbed.querySelector('.customer_name');
+    if (nameInput) {
+      nameInput.addEventListener('change', function() {
+        const sunbedId = this.closest('.sunbed').id;
+        const currentColor = this.closest('.sunbed').style.backgroundColor;
+        const clientName = this.value;
+        
+        // Sincronizar con Firebase
+        syncSunbedState(sunbedId, {
+          color: currentColor,
+          clientName: clientName
+        });
+      });
+    }
+  });
+
+  // Event listener para cambios en los círculos
+  document.querySelectorAll('.circle').forEach(circle => {
+    circle.addEventListener('click', function() {
+      const circleId = this.id;
+      const currentColor = this.style.backgroundColor;
+      
+      // Sincronizar con Firebase
+      syncCircleState(circleId, {
+        color: currentColor
+      });
+    });
+  });
+});
