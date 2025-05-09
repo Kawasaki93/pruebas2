@@ -152,8 +152,8 @@ function updateVisibilityUI(data) {
 // Función para verificar la conexión con Firestore
 function checkFirestoreConnection() {
   const connectionStatus = document.getElementById('connectionStatus');
-  connectionStatus.textContent = 'Verificando...';
-  connectionStatus.style.backgroundColor = '#f0f0f0';
+  connectionStatus.textContent = '...';
+  connectionStatus.style.backgroundColor = 'rgba(240, 240, 240, 0.8)';
   connectionStatus.style.color = '#333';
   
   // Intentar una operación simple de Firestore
@@ -161,8 +161,8 @@ function checkFirestoreConnection() {
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   })
   .then(() => {
-    connectionStatus.textContent = '✅ Conectado';
-    connectionStatus.style.backgroundColor = '#4CAF50';
+    connectionStatus.textContent = 'OK';
+    connectionStatus.style.backgroundColor = 'rgba(76, 175, 80, 0.8)';
     connectionStatus.style.color = 'white';
     
     // Verificar la latencia
@@ -170,22 +170,26 @@ function checkFirestoreConnection() {
     return db.collection('connection_test').doc('test').get()
       .then(() => {
         const latency = Date.now() - startTime;
-        connectionStatus.textContent = `✅ Conectado (${latency}ms)`;
+        if (latency < 100) {
+          connectionStatus.textContent = 'OK';
+        } else {
+          connectionStatus.textContent = `${latency}ms`;
+        }
       });
   })
   .catch((error) => {
-    connectionStatus.textContent = '❌ Desconectado';
-    connectionStatus.style.backgroundColor = '#f44336';
+    connectionStatus.textContent = 'X';
+    connectionStatus.style.backgroundColor = 'rgba(244, 67, 54, 0.8)';
     connectionStatus.style.color = 'white';
     console.error('Error de conexión:', error);
     
     // Mostrar el error específico
     if (error.code === 'permission-denied') {
-      connectionStatus.textContent = '❌ Error de permisos';
+      connectionStatus.textContent = '!';
     } else if (error.code === 'unavailable') {
-      connectionStatus.textContent = '❌ Servicio no disponible';
+      connectionStatus.textContent = 'X';
     } else {
-      connectionStatus.textContent = '❌ Error de conexión';
+      connectionStatus.textContent = 'X';
     }
   });
 }
