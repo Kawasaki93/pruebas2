@@ -15,8 +15,30 @@
   
   <!-- Firebase -->
   <script type="module">
+    // Importar Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getDatabase } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+    
+    // Configuración de Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyDkysB7sphvSwUhWQXJVXFxrIO7BOtZ6pw",
+      authDomain: "playa-juan-27018.firebaseapp.com",
+      databaseURL: "https://playa-juan-27018-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "playa-juan-27018",
+      storageBucket: "playa-juan-27018.firebasestorage.app",
+      messagingSenderId: "882891522681",
+      appId: "1:882891522681:web:42d7020ea1859c17ff0aa8"
+    };
+
+    // Inicializar Firebase
+    try {
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase(app);
+      window.database = database;
+      console.log('✅ Firebase inicializado correctamente');
+    } catch (error) {
+      console.error('❌ Error al inicializar Firebase:', error);
+    }
   </script>
 </head>
 <body>
@@ -158,29 +180,6 @@
   </div>
 </div>
 <!-- Scripts personalizados -->
-<script type="module">
-  // Importar Firebase
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getDatabase } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-  
-  // Configuración de Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyDpVd0jLqj3D6q4VjRjHYPAdrOd5qs_Y54",
-    authDomain: "base-datos-ce254.firebaseapp.com",
-    databaseURL: "https://base-datos-ce254-default-rtdb.europe-west1.firebasedatabase.app",
-    projectId: "base-datos-ce254",
-    storageBucket: "base-datos-ce254.firebasestorage.app",
-    messagingSenderId: "268304492138",
-    appId: "1:268304492138:web:1e583f94f6bf013f870c13"
-  };
-
-  // Inicializar Firebase
-  const app = initializeApp(firebaseConfig);
-  const database = getDatabase(app);
-
-  // Hacer la base de datos disponible globalmente
-  window.database = database;
-</script>
 <script type="module" src="./src/script.js"></script>
 
 <!-- Menú contextual de colores -->
