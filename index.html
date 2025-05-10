@@ -12,16 +12,17 @@
   <!-- Estilos personalizados -->
   <link rel="stylesheet" href="./style.css">
   <link rel="manifest" href="/manifest.json">
+  <!-- Firebase -->
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
+  <script type="module" src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js"></script>
+  
+  <!-- Nuestros scripts -->
+  <script type="module" src="src/firebase-config.js"></script>
+  <script type="module" src="src/firebase-sync.js"></script>
+  <script type="module" src="src/data-structures.js"></script>
+  <script type="module" src="src/sync-manager.js"></script>
 </head>
 <body>
-    <div style="position: fixed; top: 5px; right: 5px; z-index: 1000; display: flex; gap: 5px; align-items: center; font-size: 12px;">
-        <div id="connectionStatus" style="padding: 4px 8px; border-radius: 3px; font-weight: normal; background-color: rgba(240, 240, 240, 0.8); border: 1px solid #ccc; font-size: 11px;">
-            Verificando...
-        </div>
-        <button onclick="checkFirestoreConnection()" style="padding: 4px 8px; border-radius: 3px; background-color: rgba(33, 150, 243, 0.8); color: white; border: none; cursor: pointer; font-size: 11px;">
-            ✓
-        </button>
-    </div>
 
 <div class="left_panel">
   <h3>Playa&nbsp;Juan</h3>
@@ -123,6 +124,12 @@
     <option value="tarjeta">Tarjeta</option>
   </select>
 
+  <label for="sombrillaExtra">Sombrilla Extra:</label>
+  <select id="sombrillaExtra">
+    <option value="no">No</option>
+    <option value="si">Sí (+4€)</option>
+  </select>
+
   <button onclick="calcularCambio()">Calcular</button>
 
   <div class="cambio" id="resultado"></div>
@@ -138,6 +145,10 @@
     <div id="historialContainer">
       <h4>Historial de pagos:</h4>
       <ul id="historial"></ul>
+      <div class="historial-nav">
+        <button onclick="scrollHistorial('up')">↑</button>
+        <button onclick="scrollHistorial('down')">↓</button>
+      </div>
     </div>
 
     <!-- Botones debajo -->
@@ -161,20 +172,5 @@
   <div class="color-option step5" data-step="5"></div>
   <div class="color-option step6" data-step="6"></div>
 </div>
-
-<!-- Firebase -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-
-<!-- Configuración de Firebase -->
-<script src="firebase-config.js"></script>
-
-<!-- Iniciar escucha de cambios -->
-<script>
-  document.addEventListener('DOMContentLoaded', () => {
-    listenToChanges();
-  });
-</script>
 </body>
 </html>

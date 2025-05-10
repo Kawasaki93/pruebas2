@@ -1,0 +1,9 @@
+{
+  "name": "sunbed-manager",
+  "version": "1.0.0",
+  "description": "Sistema de gestión de sunbeds con sincronización en tiempo real",
+  "main": "src/script.js",
+  "dependencies": {
+    "firebase": "^10.8.0"
+  }
+} 
